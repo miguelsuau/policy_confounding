@@ -20,7 +20,7 @@ class Tmaze(gym.Env):
 
     def __init__(self, seed, eval=False):
         self.seed(seed)
-        self.max_steps = 100
+        self.max_steps = 50
         self.img = None
         self.slippery = eval
 
@@ -120,21 +120,21 @@ class Tmaze(gym.Env):
         return new_location, bitmap
 
     def reward_done(self):
-        reward = -0.01
+        reward = -0.1
         done = False
         if self.location[1] == self.CORRIDOR_LENGTH - 1:
             if self.location[0] == 0:
                 done = True
                 if self.value == -1:
                     reward = 1.0
-                else:
-                    reward = -1.0
+                # else:
+                #     reward = -1.0
             if self.location[0] == self.CORRIDOR_WIDTH - 1:
                 done = True
                 if self.value == 1:
                     reward = 1.0
-                else:
-                    reward = -1.0
+                # else:
+                #     reward = -1.0
 
         if self.steps >= self.max_steps:
             done = True
