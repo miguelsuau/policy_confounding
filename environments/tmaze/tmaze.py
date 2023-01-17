@@ -127,14 +127,14 @@ class Tmaze(gym.Env):
                 done = True
                 if self.value == -1:
                     reward = 1.0
-                else:
-                    reward = -1.0
+                # else:
+                #     reward = -1.0
             if self.location[0] == self.CORRIDOR_WIDTH - 1:
                 done = True
                 if self.value == 1:
                     reward = 1.0
-                else:
-                    reward = -1.0
+                # else:
+                #     reward = -1.0
 
         if self.steps >= self.max_steps:
             done = True
