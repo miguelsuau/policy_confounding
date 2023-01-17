@@ -13,7 +13,7 @@ import csv
 from copy import deepcopy
 import time
 
-from stable_baselines3.common.vec_env import SubprocVecEnv, VecNormalize, VecFrameStack, DummyVecEnv
+from stable_baselines3.common.vec_env import SubprocVecEnv, VecNormalize, VecFrameStack, DummyVecEnv, VecMonitor
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3 import DQN, PPO
 from callback import Callback
@@ -69,10 +69,12 @@ class Experiment(object):
         self._seed = seed
         self.parameters = parameters['main']
         self.seed = seed
-        np.random.seed(seed)
+        self.log_dir = 'tmp/'
+        os.makedirs(self.log_dir, exist_ok=True)
         self.create_env()
 
     def create_env(self):
+        # Create log dir
         # env_id = 'environments' + ':' + self.parameters['name'] + '-v0'
         env_id = self.parameters['name']
         # env = SubprocVecEnv(
@@ -81,20 +83,21 @@ class Experiment(object):
         #     ) 
         # env = VecNormalize(env, norm_reward=True, norm_obs=False)
         env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=False)])
-        env = Monitor(env)
+        # env = Monitor(env, log_dir)
         # if self.parameters['framestack']:
-        self.env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
-        # self.normalized_env = VecNormalize(env, norm_reward=True, norm_obs=False)
-        # env = Monitor(env)
+        env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
+        self.env = VecMonitor(env, self.log_dir)
+        # self.env = VecNormalize(env, norm_reward=True, norm_obs=False)
         # eval_env = SubprocVecEnv(
         #     [self.make_env(env_id, i, self.seed, True) for i in range(self.parameters['num_workers'])],
         #     'spawn'
         #     )
         eval_env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=True)])
-        eval_env = Monitor(eval_env)
-        self.eval_env = VecFrameStack(eval_env, n_stack=self.parameters['n_stack'])
         # eval_env = Monitor(eval_env)
-        # eval_env = VecNormalize(eval_env, norm_reward=True, norm_obs=False)
+        eval_env = VecFrameStack(eval_env, n_stack=self.parameters['n_stack'])
+        self.eval_env = VecMonitor(eval_env, self.log_dir)
+        # self.eval_env = VecNormalize(eval_env, norm_reward=True, norm_obs=False)
+        
         
         # if self.parameters['framestack']:    
         # eval_env = VecFrameStack(eval_env, n_stack=self.parameters['n_stack'])
@@ -180,9 +183,9 @@ class Experiment(object):
             self._run,
             deterministic=self.parameters['eval_deterministic'],
             eval_freq=self.parameters['eval_freq'],
-            n_eval_episodes=self.parameters['eval_episodes']
+            n_eval_episodes=self.parameters['eval_episodes'],
+            log_dir=self.log_dir
             )
-        env = self.agent.get_env()
         self.agent.learn(total_timesteps=self.parameters['total_steps'], reset_num_timesteps=False, callback=callback)
         
 

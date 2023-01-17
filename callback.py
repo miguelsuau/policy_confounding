@@ -8,7 +8,7 @@ class Callback(BaseCallback):
 
     :param verbose: Verbosity level: 0 for no output, 1 for info messages, 2 for debug messages
     """
-    def __init__(self, agent, train_env, eval_env, sacred_run, deterministic, eval_freq, n_eval_episodes, verbose=0):
+    def __init__(self, agent, train_env, eval_env, sacred_run, deterministic, eval_freq, n_eval_episodes, log_dir, verbose=0):
         super(Callback, self).__init__(verbose)
         self.agent = agent
         self.train_env = train_env
@@ -18,6 +18,7 @@ class Callback(BaseCallback):
         self.deterministic = deterministic
         self.eval_freq = eval_freq
         self.n_eval_episodes = n_eval_episodes
+        self.log_dir = log_dir
         
     def _on_training_start(self) -> None:
         """
