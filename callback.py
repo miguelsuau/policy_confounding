@@ -2,14 +2,14 @@ from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.evaluation import evaluate_policy
 import numpy as np
 
-class OOTCallback(BaseCallback):
+class Callback(BaseCallback):
     """
     A custom callback that derives from ``BaseCallback``.
 
     :param verbose: Verbosity level: 0 for no output, 1 for info messages, 2 for debug messages
     """
     def __init__(self, agent, train_env, eval_env, sacred_run, deterministic, eval_freq, n_eval_episodes, verbose=0):
-        super(OOTCallback, self).__init__(verbose)
+        super(Callback, self).__init__(verbose)
         self.agent = agent
         self.train_env = train_env
         self.eval_env = eval_env

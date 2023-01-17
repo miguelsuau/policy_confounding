@@ -16,7 +16,7 @@ import time
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecNormalize, VecFrameStack, DummyVecEnv
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3 import DQN, PPO
-from OOT_callback import OOTCallback
+from callback import Callback
 from stable_baselines3.common.buffers import ReplayBuffer
 
 
@@ -173,7 +173,7 @@ class Experiment(object):
                 policy_kwargs=policy_kwargs
                 )
 
-        oot_callback = OOTCallback(
+        callback = Callback(
             self.agent, 
             self.env,
             self.eval_env,
@@ -183,11 +183,11 @@ class Experiment(object):
             n_eval_episodes=self.parameters['eval_episodes']
             )
         env = self.agent.get_env()
-        self.agent.learn(total_timesteps=self.parameters['total_steps'], reset_num_timesteps=False, callback=oot_callback)
+        self.agent.learn(total_timesteps=self.parameters['total_steps'], reset_num_timesteps=False, callback=callback)
         
 
 if __name__ == '__main__':
-    ex = sacred.Experiment('OOT')
+    ex = sacred.Experiment('policy_confounding')
     ex.add_config('configs/default.yaml')
     add_mongodb_observer()
 
