@@ -160,6 +160,7 @@ class Experiment(object):
                 n_epochs=self.parameters['num_epoch'],
                 learning_rate=self.linear_schedule(self.parameters['learning_rate']),
                 gamma=self.parameters['gamma'],
+                use_sde=self.parameters['use_sde'],
                 policy_kwargs=policy_kwargs
                 )
         
@@ -172,13 +173,13 @@ class Experiment(object):
                 learning_starts=self.parameters['learning_starts'],
                 batch_size=self.parameters['batch_size'],
                 learning_rate=self.linear_schedule(self.parameters['learning_rate']), 
-                # learning_rate=self.parameters['learning_rate'], 
                 target_update_interval=self.parameters['target_update_interval'],
                 exploration_initial_eps=self.parameters['exploration_initial_eps'],
                 exploration_final_eps=self.parameters['exploration_final_eps'],
                 exploration_fraction=self.parameters['exploration_fraction'],
                 train_freq=self.parameters['train_freq'],
                 gamma=self.parameters['gamma'],
+                se_sde=self.parameters['use_sde'],
                 policy_kwargs=policy_kwargs
                 )
 

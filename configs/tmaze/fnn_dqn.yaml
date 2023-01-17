@@ -14,10 +14,11 @@ parameters:
         target_update_interval: 1.0e+4
         learning_starts: 1.0e+4
         exploration_initial_eps: 1.0
-        exploration_final_eps: 0.0
+        exploration_final_eps: 0.1
         exploration_fraction: 0.2
         learning_rate: 1.0e-3
         hidden_size: 128
         hidden_size_2: 128
         train_freq: 3
         gamma: 0.95
+        use_sde: false
