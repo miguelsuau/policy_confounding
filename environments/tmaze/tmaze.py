@@ -120,7 +120,7 @@ class Tmaze(gym.Env):
         return new_location, bitmap
 
     def reward_done(self):
-        reward = -0.1
+        reward = -0.01
         done = False
         if self.location[1] == self.CORRIDOR_LENGTH - 1:
             if self.location[0] == 0:
