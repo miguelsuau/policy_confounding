@@ -50,14 +50,17 @@ def add_mongodb_observer():
             )
         server.start()
         DB_URI = 'mongodb://localhost:{}/policy_confounding'.format(server.local_bind_port)
-        # pymongo.MongoClient('127.0.0.1', server.local_bind_port)
-        ex.observers.append(MongoObserver.create(DB_URI, db_name=MONGO_DB, ssl=False))
-        print("Added MongoDB observer on {}.".format(MONGO_DB))
+        
     except pymongo.errors.ServerSelectionTimeoutError as e:
         print(e)
-    print("ONLY FILE STORAGE OBSERVER ADDED")
-    from sacred.observers import FileStorageObserver
-    ex.observers.append(FileStorageObserver.create('saved_runs'))
+        DB_URI = 'mongodb://localhost:27017/policy_confounding'
+
+
+    ex.observers.append(MongoObserver.create(DB_URI, db_name=MONGO_DB, ssl=False))
+    print("Added MongoDB observer on {}.".format(MONGO_DB))
+        # print("ONLY FILE STORAGE OBSERVER ADDED")
+        # from sacred.observers import FileStorageObserver
+        # ex.observers.append(FileStorageObserver.create('saved_runs'))
 
 class Experiment(object):
     """
@@ -173,6 +176,7 @@ class Experiment(object):
                 exploration_initial_eps=self.parameters['exploration_initial_eps'],
                 exploration_final_eps=self.parameters['exploration_final_eps'],
                 exploration_fraction=self.parameters['exploration_fraction'],
+                train_freq=self.parameters['train_freq'],
                 policy_kwargs=policy_kwargs
                 )
 
