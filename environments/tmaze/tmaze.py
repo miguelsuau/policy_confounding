@@ -20,7 +20,7 @@ class Tmaze(gym.Env):
 
     def __init__(self, seed, eval=False):
         self.seed(seed)
-        self.max_steps = 100
+        self.max_steps = 200
         self.img = None
         self.slippery = eval
 
