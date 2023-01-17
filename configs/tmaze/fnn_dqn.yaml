@@ -20,3 +20,4 @@ parameters:
         hidden_size: 128
         hidden_size_2: 128
         train_freq: 3
+        gamma: 0.95

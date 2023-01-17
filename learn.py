@@ -159,6 +159,7 @@ class Experiment(object):
                 ent_coef=self.parameters['beta'], 
                 n_epochs=self.parameters['num_epoch'],
                 learning_rate=self.linear_schedule(self.parameters['learning_rate']),
+                gamma=self.parameter['gamma'],
                 policy_kwargs=policy_kwargs
                 )
         
@@ -177,6 +178,7 @@ class Experiment(object):
                 exploration_final_eps=self.parameters['exploration_final_eps'],
                 exploration_fraction=self.parameters['exploration_fraction'],
                 train_freq=self.parameters['train_freq'],
+                gamma=self.parameter['gamma'],
                 policy_kwargs=policy_kwargs
                 )
 
