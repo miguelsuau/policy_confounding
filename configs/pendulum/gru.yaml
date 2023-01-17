@@ -1,0 +1,23 @@
+parameters:
+    main:
+        env: 'acrobot'
+        obs_size: 5
+        rollout_steps: 16
+        num_actions: 3
+        action_min: -2.0
+        action_max: 2.0
+        name: 'environments:acrobot-v0'
+        hidden_size: 128
+        hidden_size_2: 64
+        seq_len: 2
+        num_workers: 4
+        epsilon: 0.1
+        beta: 0.1
+        render: False
+        policy: 'GRUPolicy'
+        load_policy: False
+        framestack: False
+        total_steps: 4.0e+5
+        eval_steps: 4.0e+3
+        eval_freq: 5.0e+4
+        render: False

@@ -1,0 +1,110 @@
+{
+  "artifacts": [],
+  "command": "main",
+  "experiment": {
+    "base_dir": "/home/miguels/OOT",
+    "dependencies": [
+      "ale-py==0.7.4",
+      "numpy==1.24.1",
+      "pymongo==4.3.3",
+      "sacred==0.8.2",
+      "sshtunnel==0.4.0",
+      "stable-baselines3==1.7.0"
+    ],
+    "mainfile": "learn_stable_baselines.py",
+    "name": "OOT",
+    "repositories": [
+      {
+        "commit": "48b718761f4d2ef873dab1ef007697da6f266c9a",
+        "dirty": true,
+        "url": "git@github.com:INFLUENCEorg/OOT.git"
+      },
+      {
+        "commit": "48b718761f4d2ef873dab1ef007697da6f266c9a",
+        "dirty": true,
+        "url": "git@github.com:INFLUENCEorg/OOT.git"
+      }
+    ],
+    "sources": [
+      [
+        "OOT_callback.py",
+        "_sources/OOT_callback_e2cd78d87afef45318599b7d281bf7ee.py"
+      ],
+      [
+        "learn_stable_baselines.py",
+        "_sources/learn_stable_baselines_25a22353d911d141d5247fcbd0e440cc.py"
+      ]
+    ]
+  },
+  "heartbeat": "2023-01-16T17:50:19.761070",
+  "host": {
+    "ENV": {},
+    "cpu": "Intel(R) Xeon(R) CPU E5-2660 v4 @ 2.00GHz",
+    "gpus": {
+      "driver_version": "470.161.03",
+      "gpus": [
+        {
+          "model": "NVIDIA TITAN Xp",
+          "persistence_mode": false,
+          "total_memory": 12195
+        },
+        {
+          "model": "NVIDIA GeForce GTX 1080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11178
+        },
+        {
+          "model": "NVIDIA GeForce GTX 1080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11178
+        },
+        {
+          "model": "NVIDIA GeForce GTX 1080 Ti",
+          "persistence_mode": false,
+          "total_memory": 11178
+        }
+      ]
+    },
+    "hostname": "wsf1",
+    "os": [
+      "Linux",
+      "Linux-5.15.0-57-generic-x86_64-with-glibc2.29"
+    ],
+    "python_version": "3.8.10"
+  },
+  "meta": {
+    "command": "main",
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "./configs/tmaze/fnn_dqn.yaml"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2023-01-16T17:42:43.285328",
+  "status": "COMPLETED",
+  "stop_time": "2023-01-16T17:50:19.758615"
+}

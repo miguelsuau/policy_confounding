@@ -1,0 +1,33 @@
+parameters:
+    main:
+        env: 'ontrack'
+        obs_size: 6
+        rollout_steps: 8
+        num_actions: 4
+        continuous_actions: false
+        action_min: 0
+        action_max: 100
+        name: 'ontrack'
+        hidden_size: 128
+        hidden_size_2: 128
+        seq_len: 1
+        num_workers: 1
+        epsilon: 0.1
+        beta: 0.01
+        render: False
+        policy: 'FNNPolicy'
+        load_policy: False
+        framestack: False
+        total_steps: 2.0e+5
+        eval_steps: 1.0e+3
+        eval_freq: 1.0e+4
+        render: False
+        save_frequency: 1.0e+5
+        c1: 1
+        num_epoch: 3
+        gamma: 0.99
+        lambda: 0.95
+        learning_rate: 2.5e-4
+        batch_size: 32
+        memory_size: 128
+        

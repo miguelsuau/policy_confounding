@@ -1,0 +1,159 @@
+INFO - OOT - Running command 'main'
+INFO - OOT - Started run with ID "31"
+/home/miguels/.local/share/virtualenvs/OOT-uM5EweiB/lib/python3.8/site-packages/stable_baselines3/common/evaluation.py:67: UserWarning: Evaluation environment is not wrapped with a ``Monitor`` wrapper. This may result in reporting modified episode lengths and rewards, if other wrappers happen to modify these. Consider wrapping environment first with ``Monitor`` wrapper.
+  warnings.warn(
+Train step: 0
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -10.00, Episode mean length: 100.00
+Evaluation environment - Episode mean reward: -10.00, Episode mean length: 100.00
+--------------------------------------------------------------------------------
+Train step: 10000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -10.00, Episode mean length: 100.00
+Evaluation environment - Episode mean reward: -10.00, Episode mean length: 100.00
+--------------------------------------------------------------------------------
+Train step: 20000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -5.31, Episode mean length: 55.28
+Evaluation environment - Episode mean reward: -6.96, Episode mean length: 60.56
+--------------------------------------------------------------------------------
+Train step: 30000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -10.00, Episode mean length: 100.00
+Evaluation environment - Episode mean reward: -10.00, Episode mean length: 100.00
+--------------------------------------------------------------------------------
+Train step: 40000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.24, Episode mean length: 8.64
+Evaluation environment - Episode mean reward: -1.74, Episode mean length: 8.44
+--------------------------------------------------------------------------------
+Train step: 50000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -3.18, Episode mean length: 34.42
+Evaluation environment - Episode mean reward: -2.35, Episode mean length: 25.68
+--------------------------------------------------------------------------------
+Train step: 60000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -0.10, Episode mean length: 12.04
+Evaluation environment - Episode mean reward: -0.15, Episode mean length: 12.52
+--------------------------------------------------------------------------------
+Train step: 70000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -0.07, Episode mean length: 11.72
+Evaluation environment - Episode mean reward: -0.02, Episode mean length: 11.20
+--------------------------------------------------------------------------------
+Train step: 80000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.30, Episode mean length: 8.00
+Evaluation environment - Episode mean reward: 0.25, Episode mean length: 8.48
+--------------------------------------------------------------------------------
+Train step: 90000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.33, Episode mean length: 7.74
+Evaluation environment - Episode mean reward: 0.35, Episode mean length: 7.54
+--------------------------------------------------------------------------------
+Train step: 100000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.36, Episode mean length: 7.44
+Evaluation environment - Episode mean reward: 0.18, Episode mean length: 9.24
+--------------------------------------------------------------------------------
+Train step: 110000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.42, Episode mean length: 6.84
+Evaluation environment - Episode mean reward: 0.24, Episode mean length: 8.56
+--------------------------------------------------------------------------------
+Train step: 120000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.46, Episode mean length: 6.44
+Evaluation environment - Episode mean reward: 0.36, Episode mean length: 7.40
+--------------------------------------------------------------------------------
+Train step: 130000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -10.00, Episode mean length: 100.00
+Evaluation environment - Episode mean reward: -10.00, Episode mean length: 100.00
+--------------------------------------------------------------------------------
+Train step: 140000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.48
+Evaluation environment - Episode mean reward: 0.35, Episode mean length: 7.54
+--------------------------------------------------------------------------------
+Train step: 150000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.50
+Evaluation environment - Episode mean reward: -0.64, Episode mean length: 6.96
+--------------------------------------------------------------------------------
+Train step: 160000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.48
+Evaluation environment - Episode mean reward: 0.34, Episode mean length: 7.56
+--------------------------------------------------------------------------------
+Train step: 170000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.46
+Evaluation environment - Episode mean reward: -0.82, Episode mean length: 6.76
+--------------------------------------------------------------------------------
+Train step: 180000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.44, Episode mean length: 6.56
+Evaluation environment - Episode mean reward: -0.71, Episode mean length: 6.88
+--------------------------------------------------------------------------------
+Train step: 190000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.54
+Evaluation environment - Episode mean reward: -0.59, Episode mean length: 6.48
+--------------------------------------------------------------------------------
+Train step: 200000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.50
+Evaluation environment - Episode mean reward: -0.38, Episode mean length: 7.24
+--------------------------------------------------------------------------------
+Train step: 210000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.52
+Evaluation environment - Episode mean reward: -0.72, Episode mean length: 7.38
+--------------------------------------------------------------------------------
+Train step: 220000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.50
+Evaluation environment - Episode mean reward: 0.29, Episode mean length: 8.12
+--------------------------------------------------------------------------------
+Train step: 230000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.46, Episode mean length: 6.44
+Evaluation environment - Episode mean reward: 0.35, Episode mean length: 7.46
+--------------------------------------------------------------------------------
+Train step: 240000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.46, Episode mean length: 6.44
+Evaluation environment - Episode mean reward: 0.35, Episode mean length: 7.50
+--------------------------------------------------------------------------------
+Train step: 250000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.44, Episode mean length: 6.56
+Evaluation environment - Episode mean reward: -0.71, Episode mean length: 6.88
+--------------------------------------------------------------------------------
+Train step: 260000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.50
+Evaluation environment - Episode mean reward: -0.60, Episode mean length: 7.00
+--------------------------------------------------------------------------------
+Train step: 270000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.48
+Evaluation environment - Episode mean reward: -0.79, Episode mean length: 7.26
+--------------------------------------------------------------------------------
+Train step: 280000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.54
+Evaluation environment - Episode mean reward: -0.79, Episode mean length: 7.26
+--------------------------------------------------------------------------------
+Train step: 290000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.45, Episode mean length: 6.54
+Evaluation environment - Episode mean reward: -0.51, Episode mean length: 7.74
+--------------------------------------------------------------------------------
+Train step: 300000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: 0.46, Episode mean length: 6.42
+Evaluation environment - Episode mean reward: -0.48, Episode mean length: 7.80
+--------------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+parameters:
+    main:
+        env: 'ontrack'
+        obs_size: 11
+        rollout_steps: 8
+        num_actions: 4
+        name: 'environments:ontrack-v0'
+        hidden_size: 128
+        hidden_size_2: 128
+        seq_len: 1
+        num_workers: 4
+        epsilon: 0.1
+        beta: 0.01
+        render: False
+        policy: 'FNNPolicy'
+        framestack: False
+        total_steps: 1.0e+4
+        eval_steps: 5.0e+3
+        eval_freq: 1.0e+3
+        render: False

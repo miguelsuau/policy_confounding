@@ -1,0 +1,19 @@
+parameters:
+    main:
+        env: 'keydoor'
+        name: 'environments:keydoor-v0'
+        algorithm: 'DQN'
+        num_workers: 1
+        n_stack: 10
+        eval_episodes: 1
+        eval_deterministic: true
+        eval_freq: 1.0e+4
+        total_steps: 5.0e+5
+        buffer_size: 2.0e+4
+        learning_starts: 1.0e+4
+        exploration_initial_eps: 1.0
+        exploration_final_eps: 0.00
+        exploration_fraction: 0.2
+        learning_rate: 1.0e-3
+        hidden_size: 32
+        hidden_size_2: 32

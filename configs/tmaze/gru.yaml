@@ -1,0 +1,21 @@
+parameters:
+    main:
+        env: 'tmaze'
+        obs_size: 21
+        rollout_steps: 16
+        num_actions: 4
+        name: 'environments:tmaze-v0'
+        hidden_size: 128
+        hidden_size_2: 64
+        seq_len: 32
+        num_workers: 1
+        epsilon: 0.1
+        beta: 0.01
+        render: False
+        policy: 'GRUPolicy'
+        load_policy: False
+        framestack: False
+        total_steps: 2.0e+5
+        eval_freq: 5.0e+3
+        save_frequency: 1.0e+4
+        eval_steps: 1.0e+3

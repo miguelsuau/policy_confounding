@@ -1,0 +1,21 @@
+parameters:
+    main:
+        env: 'tmaze'
+        name: 'environments:tmaze-v0'
+        algorithm: 'DQN'
+        num_workers: 1
+        n_stack: 20
+        eval_episodes: 50
+        eval_deterministic: true
+        eval_freq: 1.0e+4
+        total_steps: 3.0e+5
+        buffer_size: 5.0e+4
+        batch_size: 256
+        target_update_interval: 1.0e+4
+        learning_starts: 1.0e+4
+        exploration_initial_eps: 1.0
+        exploration_final_eps: 0.00
+        exploration_fraction: 0.5
+        learning_rate: 1.0e-3
+        hidden_size: 32
+        hidden_size_2: 16

@@ -1,0 +1,94 @@
+INFO - OOT - Running command 'main'
+INFO - OOT - Started run with ID "23"
+/home/miguels/.local/share/virtualenvs/OOT-uM5EweiB/lib/python3.8/site-packages/stable_baselines3/common/evaluation.py:67: UserWarning: Evaluation environment is not wrapped with a ``Monitor`` wrapper. This may result in reporting modified episode lengths and rewards, if other wrappers happen to modify these. Consider wrapping environment first with ``Monitor`` wrapper.
+  warnings.warn(
+Train step: 0
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -3.29, Episode mean length: 35.34
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+Evaluation environment - Episode mean reward: -2.83, Episode mean length: 31.78
+--------------------------------------------------------------------------------
+Train step: 10000
+--------------------------------------------------------------------------------
+Training environment - Episode mean reward: -3.55, Episode mean length: 38.18
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+slipped
+Evaluation environment - Episode mean reward: -2.82, Episode mean length: 30.40
+--------------------------------------------------------------------------------
