@@ -20,7 +20,7 @@ class Tmaze(gym.Env):
 
     def __init__(self, seed, eval=False):
         self.seed(seed)
-        self.max_steps = 200
+        self.max_steps = 100
         self.img = None
         self.slippery = eval
 
@@ -36,8 +36,8 @@ class Tmaze(gym.Env):
     
     def step(self, action):
         self.steps += 1
-        self.location, self.bitmap = self.move(action) 
-        
+        self.location, self.bitmap = self.move(action)
+
         if self.location[0] == 0 and self.location[1] == 0:
             obs = np.append(self.bitmap.flatten(), self.value)
         else:
