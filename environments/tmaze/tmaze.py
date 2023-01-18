@@ -14,15 +14,16 @@ class Tmaze(gym.Env):
                2: 'LEFT',
                3: 'RIGHT'}
 
-    SLIP_PROB = 1.0
+    RANDOM_ACTION_PROB = 0.2
 
     OBS_SIZE = CORRIDOR_LENGTH*CORRIDOR_WIDTH + 1
 
-    def __init__(self, seed, eval=False):
+    def __init__(self, seed, eval=False, stochasticity=False):
         self.seed(seed)
         self.max_steps = 50
         self.img = None
         self.slippery = eval
+        self.stochasticity = stochasticity
 
     def reset(self):
         self.value = np.random.choice([-1,1],1)
@@ -78,6 +79,10 @@ class Tmaze(gym.Env):
         return spaces.Discrete(len(self.ACTIONS))
 
     def move(self, action):
+
+        if self.stochasticity:
+            if np.random.uniform(0,1) < self.RANDOM_ACTION_PROB:
+                action = np.random.choice(range(0,len(self.ACTIONS)))
         
         if action == 0:
             new_location = [self.location[0]+1, self.location[1]]
@@ -95,19 +100,7 @@ class Tmaze(gym.Env):
                     new_location[0] = 1
                 else:
                     new_location[0] = 0
-            # if new_location[1] == self.CORRIDOR_LENGTH - 2 and self.location[1] == self.CORRIDOR_LENGTH - 3:# and (new_location[0] == 0 or new_location[0] == self.CORRIDOR_WIDTH -1):
-            #     if new_location[0] == 0:
-            #         new_location[0] = self.CORRIDOR_WIDTH-1
-            #     else:
-            #         new_location[0] = 0
-                # new_location = [new_location[0], new_location[1] + shift]
-            # if self.location[1] == self.CORRIDOR_LENGTH - 2:
-            #     if self.location[0] != self.CORRIDOR_WIDTH//2:
-            #         new_location = self.location
-        # if  self.CORRIDOR_WIDTH <= new_location[1] <= self.CORRIDOR_LENGTH - 1 and \
-        #     self.CORRIDOR_WIDTH <= new_location[0] <= self.CORRIDOR_WIDTH - self.CORRIDOR_WIDTH - 1:
             
-        #     new_location =  self.location
             
 
         bitmap = np.zeros((self.CORRIDOR_WIDTH, self.CORRIDOR_LENGTH))

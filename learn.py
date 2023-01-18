@@ -41,19 +41,18 @@ def add_mongodb_observer():
     MONGO_HOST = 'TUD-tm2'
     MONGO_DB = 'policy_confounding'
     PKEY = '~/.ssh/id_rsa'
-    try:
-        print("Trying to connect to mongoDB '{}'".format(MONGO_DB))
-        server = SSHTunnelForwarder(
-            MONGO_HOST,
-            ssh_pkey=PKEY,
-            remote_bind_address=('127.0.0.1', 27017)
-            )
-        server.start()
-        DB_URI = 'mongodb://localhost:{}/policy_confounding'.format(server.local_bind_port)
+    
+    print("Trying to connect to mongoDB '{}'".format(MONGO_DB))
+    server = SSHTunnelForwarder(
+        MONGO_HOST,
+        ssh_pkey=PKEY,
+        remote_bind_address=('127.0.0.1', 27017)
+        )
+    server.start()
+    DB_URI = 'mongodb://localhost:{}/policy_confounding'.format(server.local_bind_port)
         
-    except pymongo.errors.ServerSelectionTimeoutError as e:
-        print(e)
-        DB_URI = 'mongodb://localhost:27017/policy_confounding'
+    
+    # DB_URI = 'mongodb://localhost:27017/policy_confounding'
 
 
     ex.observers.append(MongoObserver.create(DB_URI, db_name=MONGO_DB, ssl=False))
@@ -77,34 +76,25 @@ class Experiment(object):
         self.create_env()
 
     def create_env(self):
-        # Create log dir
-        # env_id = 'environments' + ':' + self.parameters['name'] + '-v0'
+        
         env_id = self.parameters['name']
-        # env = SubprocVecEnv(
-        #     [self.make_env(env_id, i, self.seed) for i in range(self.parameters['num_workers'])],
-        #     'spawn'
-        #     ) 
-        # env = VecNormalize(env, norm_reward=True, norm_obs=False)
+        
         env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=False)])
-        # env = Monitor(env, log_dir)
-        # if self.parameters['framestack']:
-        env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
-        self.env = VecMonitor(env, self.log_dir)
-        # self.env = VecNormalize(env, norm_reward=True, norm_obs=False)
-        # eval_env = SubprocVecEnv(
-        #     [self.make_env(env_id, i, self.seed, True) for i in range(self.parameters['num_workers'])],
-        #     'spawn'
-        #     )
-        eval_env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=True)])
-        # eval_env = Monitor(eval_env)
-        eval_env = VecFrameStack(eval_env, n_stack=self.parameters['n_stack'])
-        self.eval_env = VecMonitor(eval_env, self.log_dir)
-        # self.eval_env = VecNormalize(eval_env, norm_reward=True, norm_obs=False)
-        
-        
-        # if self.parameters['framestack']:    
-        # eval_env = VecFrameStack(eval_env, n_stack=self.parameters['n_stack'])
+        if self.parameters['n_stack'] > 1:
+            env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
+        self.original_env = VecMonitor(env, self.log_dir)
 
+        env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=False, stochasticity=self.parameters['stochasticity'])])
+        if self.parameters['n_stack'] > 1:
+            env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
+        self.train_env = VecMonitor(env, self.log_dir)
+        
+
+        env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=True)])
+        if self.parameters['n_stack'] > 1:
+            env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
+        self.eval_env = VecMonitor(env, self.log_dir)
+        
     
     def make_env(self, env_id, rank, seed=0, eval=False):
         """
@@ -149,7 +139,7 @@ class Experiment(object):
         if self.parameters['algorithm'] == 'PPO':
             self.agent = PPO(
                 "MlpPolicy", 
-                self.env, 
+                self.train_env, 
                 verbose=0, 
                 clip_range=self.parameters['epsilon'], 
                 clip_range_vf=self.parameters['epsilon'],
@@ -160,14 +150,13 @@ class Experiment(object):
                 n_epochs=self.parameters['num_epoch'],
                 learning_rate=self.linear_schedule(self.parameters['learning_rate']),
                 gamma=self.parameters['gamma'],
-                use_sde=self.parameters['use_sde'],
                 policy_kwargs=policy_kwargs
                 )
         
         elif self.parameters['algorithm'] == 'DQN':
             self.agent = DQN(
                 "MlpPolicy", 
-                self.env, 
+                self.train_env, 
                 verbose=0,
                 buffer_size=int(self.parameters['buffer_size']), 
                 learning_starts=self.parameters['learning_starts'],
@@ -179,13 +168,12 @@ class Experiment(object):
                 exploration_fraction=self.parameters['exploration_fraction'],
                 train_freq=self.parameters['train_freq'],
                 gamma=self.parameters['gamma'],
-                se_sde=self.parameters['use_sde'],
                 policy_kwargs=policy_kwargs
                 )
 
         callback = Callback(
             self.agent, 
-            self.env,
+            self.original_env,
             self.eval_env,
             self._run,
             deterministic=self.parameters['eval_deterministic'],
