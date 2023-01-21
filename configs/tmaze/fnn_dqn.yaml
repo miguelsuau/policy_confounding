@@ -19,6 +19,6 @@ parameters:
         learning_rate: 1.0e-3
         hidden_size: 128
         hidden_size_2: 128
-        train_freq: 5
-        gamma: 0.99
+        train_freq: 3
+        gamma: 0.95
         stochasticity: false

@@ -8,7 +8,7 @@ parameters:
         eval_episodes: 500
         eval_deterministic: false
         eval_freq: 1.0e+4
-        total_steps: 5.0e+5
+        total_steps: 2.0e+5
         epsilon: 0.1
         beta: 1.0e-2
         learning_rate: 5.0e-4
@@ -16,6 +16,6 @@ parameters:
         hidden_size_2: 128
         batch_size: 32
         rollout_steps: 128
-        num_epoch: 3
+        num_epoch: 1
         stochasticity: false
-        gamma: 0.99
+        gamma: 0.95
