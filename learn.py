@@ -147,8 +147,8 @@ class Experiment(object):
                 n_steps=self.parameters['rollout_steps'],
                 ent_coef=self.parameters['beta'], 
                 n_epochs=self.parameters['num_epoch'],
-                # learning_rate=self.linear_schedule(self.parameters['learning_rate']),
-                learning_rate=self.parameters['learning_rate'],
+                learning_rate=self.linear_schedule(self.parameters['learning_rate']),
+                # learning_rate=self.parameters['learning_rate'],
                 gamma=self.parameters['gamma'],
                 policy_kwargs=policy_kwargs
                 )
