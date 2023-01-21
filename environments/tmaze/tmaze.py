@@ -163,6 +163,7 @@ class Tmaze(gym.Env):
                     action = 0
                     # new_location[0] = 1
                 else:
+                    self.override += 1
                     if self.signal == -1:
                         # new_location[0] = self.CORRIDOR_WIDTH - 1
                         action = 1
