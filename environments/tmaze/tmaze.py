@@ -56,7 +56,7 @@ class Tmaze(gym.Env):
         # obs = np.append(self.bitmap.flatten(), self.signal)
         obs = self.get_obs(signal=self.signal)
         if self.slippery:
-            self.ice_location = np.random.choice(self.CORRIDOR_LENGTH -1)
+            self.ice_location = np.random.choice(np.arange(2, self.CORRIDOR_LENGTH -1))
 
         self.steps = 0
         self.override = 0
@@ -150,7 +150,7 @@ class Tmaze(gym.Env):
 
         if self.slippery: #Override action
             # if new_location[1] == self.CORRIDOR_LENGTH - 2:
-            self.ice_location = self.CORRIDOR_LENGTH//2
+            # self.ice_location = self.CORRIDOR_LENGTH//2
             if self.location[1] == self.ice_location and self.override < self.CORRIDOR_WIDTH - 1:
                 # print('ice location: ', self.ice_location)
                 self.override += 1
