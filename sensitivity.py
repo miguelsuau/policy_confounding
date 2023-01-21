@@ -31,7 +31,7 @@ class Sensitivity:
             done = False
             while not done:
                 action, _ = self.agent.predict(obs)
-                print(self.env.get_attr('location'), action)
+                # print(self.env.get_attr('location'), action)
                 dist_1 = self.agent.policy.get_distribution(torch.FloatTensor(obs))
                 # print(np.reshape(obs, (self.env.n_stack, -1)))
                 probs_1 = dist_1.distribution.probs.detach().numpy()
@@ -44,7 +44,7 @@ class Sensitivity:
                 # breakpoint()
                 dist_2 = self.agent.policy.get_distribution(torch.FloatTensor(np.reshape(obs_2, (1,-1))))
                 probs_2 = dist_2.distribution.probs.detach().numpy()
-                print(probs_1, probs_2)
+                # print(probs_1, probs_2)
                 relative_entropy[v].append(sum(rel_entr(probs_1[0], probs_2[0])))
 
                 obs, _, done, _ = self.env.step([action])        
