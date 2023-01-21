@@ -48,6 +48,7 @@ class Tmaze(gym.Env):
         # if not self.fixed_start:
         # self.location = [np.random.choice([0, self.CORRIDOR_WIDTH-1]), 0]#np.random.choice(self.CORRIDOR_LENGTH//2 - 1)]
         self.start_location = [np.random.choice(self.CORRIDOR_WIDTH), 0]#np.random.choice(self.CORRIDOR_LENGTH//2 - 1)]
+        self.start_location = [1, 0]
         self.location = self.start_location
         # else:
         #     self.location = [0, 0]
@@ -204,14 +205,14 @@ class Tmaze(gym.Env):
                 done = True
                 if self.signal == -1:
                     reward = 1.0
-                # else:
-                    # reward = -1.0
+                else:
+                    reward = -1.0
             if self.location[0] == self.CORRIDOR_WIDTH-1 and action == 1:
                 done = True
                 if self.signal == 1:
                     reward = 1.0
-                # else:
-                    # reward = -1.0
+                else:
+                    reward = -1.0
             # if self.slippery:
             #     print(self.location, action, self.signal, reward, done)
         if self.steps >= self.max_steps:
