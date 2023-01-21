@@ -3,7 +3,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.evaluation import evaluate_policy
 import numpy as np
 
-from sensitivity import Sensitivity
+# from sensitivity import Sensitivity
 
 class Callback(BaseCallback):
     """
@@ -22,7 +22,7 @@ class Callback(BaseCallback):
         self.eval_freq = eval_freq
         self.n_eval_episodes = n_eval_episodes
         self.log_dir = log_dir
-        self.sensitivity = Sensitivity(self.agent, self.train_env)
+        # self.sensitivity = Sensitivity(self.agent, self.train_env)
         
     def _on_training_start(self) -> None:
         """
@@ -51,9 +51,9 @@ class Callback(BaseCallback):
         """
         if self.n_calls % self.eval_freq == 0:
             self._try_policy_train_eval_envs()
-            relative_entropy = self.sensitivity.measure()
-            print(relative_entropy)
-            self.sacred_run.log_scalar('relative_entroypy', np.mean(relative_entropy[1]), self.n_calls)
+            # relative_entropy = self.sensitivity.measure()
+            # print(relative_entropy)
+            # self.sacred_run.log_scalar('relative_entroypy', np.mean(relative_entropy[1]), self.n_calls)
             # breakpoint()
 
 
@@ -98,9 +98,3 @@ class Callback(BaseCallback):
         print(("-"*80))
         self.sacred_run.log_scalar('Eval mean reward', mean_reward_eval, self.n_calls)
         
-    def _measure_sensitivity(self):
-        
-        sensitivity = s('measure_sensitivity')
-        breakpoint()
-        rel_ent = sensitivity(self.agent.policy)
-
