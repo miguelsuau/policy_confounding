@@ -150,7 +150,7 @@ class Tmaze(gym.Env):
 
         if self.slippery: #Override action
             # if new_location[1] == self.CORRIDOR_LENGTH - 2:
-            
+            self.ice_location = self.CORRIDOR_LENGTH//2
             if self.location[1] == self.ice_location and self.override < self.CORRIDOR_WIDTH - 1:
                 # print('ice location: ', self.ice_location)
                 self.override += 1
