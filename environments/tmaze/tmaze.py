@@ -3,7 +3,6 @@ import gym
 import numpy as np
 from gym import spaces
 import matplotlib.pyplot as plt
-from scipy.special import rel_entr
 
 class Tmaze(gym.Env):
 
