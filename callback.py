@@ -92,7 +92,6 @@ class Callback(BaseCallback):
             return_episode_rewards=True,
             render=False
             )
-        self.eval_env.render(mode='human')
         mean_reward_eval = np.mean(rewards_eval)
         mean_length_eval = np.mean(length_eval)
         print('Evaluation environment - Episode mean reward: %.2f, Episode mean length: %.2f' % (mean_reward_eval, mean_length_eval))
