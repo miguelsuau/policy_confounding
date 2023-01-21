@@ -94,7 +94,6 @@ class Experiment(object):
         if self.parameters['n_stack'] > 1:
             env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
         self.eval_env = VecMonitor(env, self.log_dir)
-        
     
     def make_env(self, env_id, rank, seed=0, eval=False):
         """
@@ -148,11 +147,12 @@ class Experiment(object):
                 n_steps=self.parameters['rollout_steps'],
                 ent_coef=self.parameters['beta'], 
                 n_epochs=self.parameters['num_epoch'],
-                learning_rate=self.linear_schedule(self.parameters['learning_rate']),
+                # learning_rate=self.linear_schedule(self.parameters['learning_rate']),
+                learning_rate=self.parameters['learning_rate'],
                 gamma=self.parameters['gamma'],
                 policy_kwargs=policy_kwargs
                 )
-        
+
         elif self.parameters['algorithm'] == 'DQN':
             self.agent = DQN(
                 "MlpPolicy", 
@@ -170,7 +170,6 @@ class Experiment(object):
                 gamma=self.parameters['gamma'],
                 policy_kwargs=policy_kwargs
                 )
-
         callback = Callback(
             self.agent, 
             self.original_env,

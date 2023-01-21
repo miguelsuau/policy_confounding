@@ -1,6 +1,9 @@
+import re
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.evaluation import evaluate_policy
 import numpy as np
+
+from sensitivity import Sensitivity
 
 class Callback(BaseCallback):
     """
@@ -19,13 +22,15 @@ class Callback(BaseCallback):
         self.eval_freq = eval_freq
         self.n_eval_episodes = n_eval_episodes
         self.log_dir = log_dir
+        self.sensitivity = Sensitivity(self.agent, self.train_env)
         
     def _on_training_start(self) -> None:
         """
         This method is called before the first rollout starts.
         """
-        self._log()
-        
+        self._try_policy_train_eval_envs()
+        # relative_entropy = self.sensitivity.measure()
+        # self.sacred_run.log_scalar('relative_entroypy', np.mean(relative_entropy[1]), self.n_calls)
 
     def _on_rollout_start(self) -> None:
         """
@@ -45,7 +50,12 @@ class Callback(BaseCallback):
         :return: (bool) If the callback returns False, training is aborted early.
         """
         if self.n_calls % self.eval_freq == 0:
-            self._log()
+            self._try_policy_train_eval_envs()
+            relative_entropy = self.sensitivity.measure()
+            print(relative_entropy)
+            self.sacred_run.log_scalar('relative_entroypy', np.mean(relative_entropy[1]), self.n_calls)
+            # breakpoint()
+
 
     def _on_rollout_end(self) -> None:
         """
@@ -59,7 +69,7 @@ class Callback(BaseCallback):
         """
         pass
     
-    def _log(self):
+    def _try_policy_train_eval_envs(self):
         rewards_train, length_train = evaluate_policy(
                 self.agent, 
                 self.train_env, 
@@ -79,11 +89,19 @@ class Callback(BaseCallback):
             self.eval_env,
             n_eval_episodes=self.n_eval_episodes,
             deterministic=self.deterministic,
-            return_episode_rewards=True
+            return_episode_rewards=True,
+            render=False
             )
+        self.eval_env.render(mode='human')
         mean_reward_eval = np.mean(rewards_eval)
         mean_length_eval = np.mean(length_eval)
         print('Evaluation environment - Episode mean reward: %.2f, Episode mean length: %.2f' % (mean_reward_eval, mean_length_eval))
         print(("-"*80))
         self.sacred_run.log_scalar('Eval mean reward', mean_reward_eval, self.n_calls)
         
+    def _measure_sensitivity(self):
+        
+        sensitivity = s('measure_sensitivity')
+        breakpoint()
+        rel_ent = sensitivity(self.agent.policy)
+
