@@ -4,18 +4,18 @@ parameters:
         name: 'environments:tmaze-v0'
         algorithm: 'PPO'
         num_workers: 1
-        n_stack: 30
+        n_stack: 20
         eval_episodes: 500
         eval_deterministic: false
         eval_freq: 1.0e+4
         total_steps: 2.0e+5
         epsilon: 0.1
         beta: 1.0e-2
-        learning_rate: 5.0e-4
+        learning_rate: 1.0e-3
         hidden_size: 128
         hidden_size_2: 128
         batch_size: 32
         rollout_steps: 128
         num_epoch: 1
         stochasticity: false
-        gamma: 0.95
+        gamma: 0.99
