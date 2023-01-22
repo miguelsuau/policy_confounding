@@ -6,9 +6,11 @@ import matplotlib.pyplot as plt
 
 class KeyDoor(gym.Env):
     
-    CORRIDOR_LENGTH = 10
-    DOOR_LOCATION = 5
+    CORRIDOR_LENGTH = 7
+    DOOR_LOCATION = 6
     KEY_LOCATION = 0
+    START_LOCATION_TRAIN = 1
+    START_LOCATION_EVAL = 5
 
     ACTIONS = {0: 'LEFT',
                1: 'RIGHT'}
@@ -16,17 +18,18 @@ class KeyDoor(gym.Env):
 
     OBS_SIZE = CORRIDOR_LENGTH
 
-    def __init__(self, seed, eval):
+    def __init__(self, seed, eval, random_action_prob=0.0):
         self.seed(seed)
         self.max_steps = 100
         self.img = None
         self.eval = eval
+        self.random_action_prob = random_action_prob
 
     def reset(self):
         if self.eval:
-            self.location = 4
+            self.location = self.START_LOCATION_EVAL
         else:
-            self.location = 1
+            self.location = self.START_LOCATION_TRAIN
         obs = np.zeros(self.CORRIDOR_LENGTH)
         obs[self.location] = 1
         self.steps = 0
@@ -74,6 +77,9 @@ class KeyDoor(gym.Env):
         return spaces.Discrete(len(self.ACTIONS))
 
     def move(self, action):
+
+        if np.random.uniform(0,1) < self.random_action_prob:
+            action = np.random.choice(len(self.ACTIONS))
         
         if action == 0:
             new_location = self.location+1

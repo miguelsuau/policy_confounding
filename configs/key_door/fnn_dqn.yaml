@@ -5,15 +5,21 @@ parameters:
         algorithm: 'DQN'
         num_workers: 1
         n_stack: 10
-        eval_episodes: 1
+        eval_episodes: 50
         eval_deterministic: true
         eval_freq: 1.0e+4
-        total_steps: 5.0e+5
-        buffer_size: 2.0e+4
+        total_steps: 1.0e+5
+        buffer_size: 1.0e+5
+        batch_size: 256
+        target_update_interval: 1.0e+3
         learning_starts: 1.0e+4
         exploration_initial_eps: 1.0
-        exploration_final_eps: 0.00
+        exploration_final_eps: 0.0
         exploration_fraction: 0.2
         learning_rate: 1.0e-3
-        hidden_size: 32
-        hidden_size_2: 32
+        learning_rate_final: 1.0e-4
+        hidden_size: 128
+        hidden_size_2: 128
+        train_freq: 5
+        gamma: 0.95
+        random_action_prob: 0.0

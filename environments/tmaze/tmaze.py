@@ -143,9 +143,8 @@ class Tmaze(gym.Env):
 
     def move(self, action):
 
-        
         if np.random.uniform(0,1) < self.random_action_prob:
-            action = np.random.choice(range(0,len(self.ACTIONS)))
+            action = np.random.choice(len(self.ACTIONS))
 
         if self.slippery: #Override action
             # if new_location[1] == self.CORRIDOR_LENGTH - 2:
