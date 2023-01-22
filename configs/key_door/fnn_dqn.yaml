@@ -18,8 +18,8 @@ parameters:
         exploration_fraction: 0.2
         learning_rate: 1.0e-3
         learning_rate_final: 1.0e-3
-        hidden_size: 64
-        hidden_size_2: 64
+        hidden_size: 128
+        hidden_size_2: 128
         train_freq: 5
         gamma: 0.95
         random_action_prob: 0.0
