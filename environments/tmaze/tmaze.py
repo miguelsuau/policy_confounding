@@ -198,22 +198,22 @@ class Tmaze(gym.Env):
         # return new_location
 
     def reward_done(self, action):
-        # reward = -0.01
-        reward = 0.0
+        reward = -0.01
+        # reward = 0.0
         done = False
         if self.location[1] == self.CORRIDOR_LENGTH - 1:
             if self.location[0] == 0 and action == 0:
                 done = True
                 if self.signal == -1:
                     reward = 1.0
-                # else:
-                    # reward = -1.0
+                else:
+                    reward = -1.0
             if self.location[0] == self.CORRIDOR_WIDTH-1 and action == 1:
                 done = True
                 if self.signal == 1:
                     reward = 1.0
-                # else:
-                    # reward = -1.0
+                else:
+                    reward = -1.0
             # if self.slippery:
             #     print(self.location, action, self.signal, reward, done)
         if self.steps >= self.max_steps:
