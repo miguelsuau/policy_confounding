@@ -22,4 +22,4 @@ parameters:
         hidden_size_2: 128
         train_freq: 5
         gamma: 0.95
-        stochasticity: false
+        random_action_prob: 0.0

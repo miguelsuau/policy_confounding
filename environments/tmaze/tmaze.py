@@ -16,7 +16,6 @@ class Tmaze(gym.Env):
                2: 'LEFT',
                3: 'RIGHT'}
 
-    RANDOM_ACTION_PROB = 0.2
     BITMAP = True
     
     if BITMAP:
@@ -24,13 +23,13 @@ class Tmaze(gym.Env):
     else:
         OBS_SIZE = 3
 
-    def __init__(self, seed, eval=False, stochasticity=False):
+    def __init__(self, seed, eval=False, random_action_prob=False):
     
         # self.seed(seed)
         self.max_steps = 50
         self.img = None
         self.slippery = eval
-        self.stochasticity = stochasticity
+        self.random_action_prob = random_action_prob
         self.fixed_value = False
         self.signal = None
         self.fixed_start = False
@@ -144,9 +143,9 @@ class Tmaze(gym.Env):
 
     def move(self, action):
 
-        if self.stochasticity:
-            if np.random.uniform(0,1) < self.RANDOM_ACTION_PROB:
-                action = np.random.choice(range(0,len(self.ACTIONS)))
+        
+        if np.random.uniform(0,1) < self.random_action_prob:
+            action = np.random.choice(range(0,len(self.ACTIONS)))
 
         if self.slippery: #Override action
             # if new_location[1] == self.CORRIDOR_LENGTH - 2:

@@ -79,18 +79,32 @@ class Experiment(object):
         
         env_id = self.parameters['name']
         
-        env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=False)])
+        env = DummyVecEnv([lambda: gym.make(
+            env_id, 
+            seed=np.random.randint(1.0e+6), 
+            eval=False
+            )])
         if self.parameters['n_stack'] > 1:
             env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
         self.original_env = VecMonitor(env, self.log_dir)
 
-        env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=False, stochasticity=self.parameters['stochasticity'])])
+        env = DummyVecEnv([lambda: gym.make(
+            env_id, 
+            seed=np.random.randint(1.0e+6),
+            eval=False,
+            random_action_prob=self.parameters['random_action_prob']
+            )])
+
         if self.parameters['n_stack'] > 1:
             env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
         self.train_env = VecMonitor(env, self.log_dir)
         
 
-        env = DummyVecEnv([lambda: gym.make(env_id, seed=np.random.randint(1.0e+6), eval=True)])
+        env = DummyVecEnv([lambda: gym.make(
+            env_id, 
+            seed=np.random.randint(1.0e+6), 
+            eval=True
+            )])
         if self.parameters['n_stack'] > 1:
             env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
         self.eval_env = VecMonitor(env, self.log_dir)
