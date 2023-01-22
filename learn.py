@@ -110,7 +110,7 @@ class Experiment(object):
             return env
         return _init   
            
-    def linear_schedule(self, initial_value: float):
+    def linear_schedule(self, initial_value: float, final_value: float):
         """
         Linear learning rate schedule.
 
@@ -125,7 +125,7 @@ class Experiment(object):
             :param progress_remaining:
             :return: current learning rate
             """
-            return progress_remaining * initial_value
+            return progress_remaining * (initial_value - final_value) + final_value
 
         return func
 
@@ -147,8 +147,8 @@ class Experiment(object):
                 n_steps=self.parameters['rollout_steps'],
                 ent_coef=self.parameters['beta'], 
                 n_epochs=self.parameters['num_epoch'],
-                # learning_rate=self.linear_schedule(self.parameters['learning_rate']),
-                learning_rate=self.parameters['learning_rate'],
+                learning_rate=self.linear_schedule(self.parameters['learning_rate'], self.parameters['learning_rate_final']),
+                # learning_rate=self.parameters['learning_rate'],
                 gamma=self.parameters['gamma'],
                 policy_kwargs=policy_kwargs
                 )
@@ -161,8 +161,8 @@ class Experiment(object):
                 buffer_size=int(self.parameters['buffer_size']), 
                 learning_starts=self.parameters['learning_starts'],
                 batch_size=self.parameters['batch_size'],
-                # learning_rate=self.linear_schedule(self.parameters['learning_rate']), 
-                learning_rate=self.parameters['learning_rate'],
+                learning_rate=self.linear_schedule(self.parameters['learning_rate'], self.parameters['learning_rate_final']), 
+                # learning_rate=self.parameters['learning_rate'],
                 target_update_interval=self.parameters['target_update_interval'],
                 exploration_initial_eps=self.parameters['exploration_initial_eps'],
                 exploration_final_eps=self.parameters['exploration_final_eps'],

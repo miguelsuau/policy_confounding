@@ -12,6 +12,7 @@ parameters:
         epsilon: 0.1
         beta: 1.0e-2
         learning_rate: 1.0e-3
+        learning_rate_final: 1.0e-5
         hidden_size: 128
         hidden_size_2: 128
         batch_size: 32
