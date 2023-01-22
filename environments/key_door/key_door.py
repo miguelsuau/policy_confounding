@@ -20,7 +20,7 @@ class KeyDoor(gym.Env):
 
     def __init__(self, seed, eval, random_action_prob=0.0):
         self.seed(seed)
-        self.max_steps = 100
+        self.max_steps = 50
         self.img = None
         self.eval = eval
         self.random_action_prob = random_action_prob
