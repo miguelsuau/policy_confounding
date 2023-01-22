@@ -8,7 +8,7 @@ parameters:
         eval_episodes: 50
         eval_deterministic: true
         eval_freq: 1.0e+4
-        total_steps: 2.0e+5
+        total_steps: 1.0e+5
         buffer_size: 1.0e+5
         batch_size: 256
         target_update_interval: 1.0e+3
