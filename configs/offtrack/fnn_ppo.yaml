@@ -1,18 +1,22 @@
 parameters:
     main:
-        env: 'ontrack'
-        name: 'environments:ontrack-v0'
+        env: 'offtrack'
+        name: 'environments:offtrack-v0'
         algorithm: 'PPO'
         num_workers: 1
         n_stack: 1
-        eval_episodes: 100
+        eval_episodes: 500
         eval_deterministic: false
         eval_freq: 1.0e+3
-        total_steps: 5.0e+4
+        total_steps: 2.0e+4
         epsilon: 0.1
         beta: 1.0e-2
         learning_rate: 1.0e-3
+        learning_rate_final: 1.0e-3
         hidden_size: 128
         hidden_size_2: 128
-        batch_size: 64
+        batch_size: 32
         rollout_steps: 128
+        num_epoch: 3
+        random_action_prob: 0.0
+        gamma: 0.99

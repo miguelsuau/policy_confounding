@@ -5,8 +5,8 @@ register(
     entry_point='environments.tmaze:Tmaze',
 )
 register(
-    id='ontrack-v0',
-    entry_point='environments.ontrack:OnTrack',
+    id='offtrack-v0',
+    entry_point='environments.offtrack:OffTrack',
 )
 register(
     id='keydoor-v0',

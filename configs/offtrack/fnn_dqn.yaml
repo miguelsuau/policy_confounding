@@ -1,21 +1,25 @@
 parameters:
     main:
-        env: 'ontrack'
-        name: 'environments:ontrack-v0'
+        env: 'offtrack'
+        name: 'environments:offtrack-v0'
         algorithm: 'DQN'
         num_workers: 1
         n_stack: 1
         eval_episodes: 1
         eval_deterministic: true
         eval_freq: 1.0e+3
-        total_steps: 5.0e+4
-        buffer_size: 5.0e+3
+        total_steps: 2.0e+4
+        buffer_size: 2.0e+4
         batch_size: 256
         target_update_interval: 1.0e+3
         learning_starts: 1.0e+3
         exploration_initial_eps: 1.0
         exploration_final_eps: 0.0
-        exploration_fraction: 0.1
+        exploration_fraction: 0.2
         learning_rate: 1.0e-3
+        learning_rate_final: 1.0e-3
         hidden_size: 128
         hidden_size_2: 128
+        train_freq: 5
+        gamma: 0.95
+        random_action_prob: 0.0
