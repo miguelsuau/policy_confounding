@@ -55,6 +55,7 @@ class Callback(BaseCallback):
             # print(relative_entropy)
             # self.sacred_run.log_scalar('relative_entroypy', np.mean(relative_entropy[1]), self.n_calls)
             # breakpoint()
+        return True
 
 
     def _on_rollout_end(self) -> None:
