@@ -5,19 +5,10 @@ register(
     entry_point='environments.tmaze:Tmaze',
 )
 register(
-    id='offtrack-v0',
-    entry_point='environments.offtrack:OffTrack',
-)
-register(
     id='keydoor-v0',
-    entry_point='environments.key_door:KeyDoor',
-    max_episode_steps=100
+    entry_point='environments.keydoor:KeyDoor',
 )
 register(
-    id='cartpole-v0',
-    entry_point='environments.cartpole:CartPoleEnv',
-)
-register(
-    id='pendulum-v0',
-    entry_point='environments.pendulum:PendulumEnv',
+    id='diversion-v0',
+    entry_point='environments.diversion:Diversion',
 )
