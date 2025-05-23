@@ -1,8 +1,0 @@
-parameters:
-    main:
-        env: 'keydoor'
-        name: 'environments:keydoor-v0'
-        algorithm: 'PPO'
-        n_stack: 1
-        normalize_advantage: true
-        use_advantage: true

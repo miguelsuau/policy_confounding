@@ -1,7 +1,0 @@
-parameters:
-    main:
-        env: 'keydoor'
-        name: 'environments:keydoor-v0'
-        algorithm: 'REINFORCE'
-        n_stack: 1
-        use_advantage: true
