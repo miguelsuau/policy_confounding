@@ -5,7 +5,7 @@ parameters:
         algorithm: 'PPO'
         num_workers: 1
         n_stack: 30
-        eval_episodes: 100
+        eval_episodes: 200
         eval_deterministic: false
         eval_freq: 1.0e+4
         total_steps: 1.0e+5
