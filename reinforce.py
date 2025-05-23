@@ -2,10 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-import gym
-from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.callbacks import BaseCallback
-from q_table import compute_q_table
 
 
 class SharedNetwork(nn.Module):
@@ -47,14 +44,13 @@ class SharedNetwork(nn.Module):
 
 
 class REINFORCE:
-    def __init__(self, env, learning_rate=3e-4, gamma=0.99, use_advantage=True, exact_q_value=False, beta=0.01):
+    def __init__(self, env, learning_rate=3e-4, gamma=0.99, use_advantage=True, beta=0.01):
         self.env = env
         self.gamma = gamma
         self.network = SharedNetwork(env.observation_space, env.action_space, lr=learning_rate)
         self.optimizer = self.network.optimizer
         self.num_timesteps = 0  # Track training timesteps
         self.use_advantage = use_advantage
-        self.exact_q_value = exact_q_value
         self.beta = beta
 
     # def compute_returns(self, rewards, values):
@@ -135,12 +131,6 @@ class REINFORCE:
         # Compute returns for all episodes in batch
         # all_returns = [self.compute_returns(rewards, values) for rewards, values in zip(all_rewards, all_values)]
         all_returns = [self.compute_returns(rewards) for rewards in all_rewards]
-        
-        if self.exact_q_value:
-            q_table, v_table = compute_q_table(self.env, self.network.action_prob)
-            all_values = []
-            for states in all_states:
-                all_values.append([torch.tensor([v_table[tuple(state.detach().numpy()[0])]]) for state in states])
 
         # Flatten log_probs, values, and returns
         log_probs_flat = torch.cat([torch.stack(lp) for lp in all_log_probs])
@@ -157,11 +147,8 @@ class REINFORCE:
         policy_loss = -torch.mean(log_probs_flat * advantages)
 
         # Value function loss (MSE between V(s) and G)
-        if not self.exact_q_value:
-            value_loss = torch.nn.functional.mse_loss(values_flat, returns_flat)
+        value_loss = torch.nn.functional.mse_loss(values_flat, returns_flat)
 
-        else:
-            value_loss = 0
 
         # Update policy and value function together
         self.optimizer.zero_grad()
@@ -205,19 +192,3 @@ class CustomCallback(BaseCallback):
         print("Training finished!")
 
 
-# Usage Example
-if __name__ == "__main__":
-    env = gym.make("CartPole-v1")
-    env = DummyVecEnv([lambda: env])  # Make it compatible with SB3
-
-    model = REINFORCE(env)
-    callback = CustomCallback()
-
-    model.learn(total_timesteps=10000, callback=callback)
-    
-    obs = env.reset()
-    done = False
-    while not done:
-        action = model.predict(obs)
-        obs, reward, done, _ = env.step([action])
-        env.render()
