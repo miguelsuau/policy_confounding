@@ -80,7 +80,6 @@ class Tmaze(gym.Env):
         # else:
         #     # obs = np.append(np.zeros((self.CORRIDOR_WIDTH, self.CORRIDOR_LENGTH)), 0)
         #     obs = self.get_obs(signal=0)
-
         return obs, reward, done, {}
 
     def render(self, mode='human'):
@@ -219,15 +218,45 @@ class Tmaze(gym.Env):
 
         return reward, done
 
-    def optimal_policy(self, value):
-        if value == -1:
-            return [3]*(self.CORRIDOR_LENGTH-1) + [0]
+    def optimal_policy(self, signal):
+        if signal == -1:
+            return [0] + [3]*(self.CORRIDOR_LENGTH-1) + [0]
         else:
             return [1] + [3]*(self.CORRIDOR_LENGTH-1) + [1]
 
 
+    def get_test_obs(self):
+        
 
+        # initialize observation queue with zeros
+        obs_queue_1 = np.zeros((30, self.OBS_SIZE))
+        obs_queue_2 = np.zeros((30, self.OBS_SIZE))
+
+        obs = self.reset()
+        self.signal = -1
+        obs = self.get_obs(self.signal)
+
+        # append the first observation to the queue and remove the last observation
+        obs_queue_1 = np.roll(obs_queue_1, shift=-1, axis=0)
+        obs_queue_1[-1] = obs
+        obs_queue_2 = np.roll(obs_queue_2, shift=-1, axis=0)
+        obs[-1] = 1
+        obs_queue_2[-1] = obs
+
+        policy = self.optimal_policy(self.signal)
+        for action in policy:
+            obs, reward, done, _ = self.step(action)
+            obs_queue_1 = np.roll(obs_queue_1, shift=-1, axis=0)
+            obs_queue_1[-1] = obs
+            obs_queue_2 = np.roll(obs_queue_2, shift=-1, axis=0)
+            obs_queue_2[-1] = obs
+            if self.location[1] == self.CORRIDOR_LENGTH - 1:
+                break
+        
+        wrong_action = 0
+        
+        return obs_queue_1.reshape(-1), obs_queue_2.reshape(-1), wrong_action
 
     
-                
+    
 
