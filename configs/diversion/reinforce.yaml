@@ -1,0 +1,9 @@
+parameters:
+    main:
+        env: 'diversion'
+        name: 'environments:diversion-v0'
+        algorithm: 'REINFORCE'
+        n_stack: 1
+        use_advantage: false
+        eval_freq: 1.0e+3
+        total_steps: 2.0e+4

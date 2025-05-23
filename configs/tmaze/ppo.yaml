@@ -1,0 +1,8 @@
+parameters:
+    main:
+        env: 'tmaze'
+        name: 'environments:tmaze-v0'
+        algorithm: 'PPO'
+        n_stack: 30
+        normalize_advantage: false
+        use_advantage: true

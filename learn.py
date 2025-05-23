@@ -5,71 +5,31 @@ import sys
 sys.path.append("..")
 
 import gym
-import sacred
-from sacred.observers import MongoObserver
-import pymongo
-from sshtunnel import SSHTunnelForwarder
-import csv
 from copy import deepcopy
-import time
 
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecNormalize, VecFrameStack, DummyVecEnv, VecMonitor
 from stable_baselines3.common.monitor import Monitor
-from stable_baselines3 import DQN, PPO
+from stable_baselines3 import DQN
+from custom_ppo import customPPO
+
 from callback import Callback
 from stable_baselines3.common.buffers import ReplayBuffer
 
+from reinforce import REINFORCE
 
-def generate_path(path):
-    """
-    Generate a path to store e.g. logs, models and plots. Check if
-    all needed subpaths exist, and if not, create them.
-    """
-    result_path = os.path.join("../results", path)
-    model_path = os.path.join("../models", path)
-    if not os.path.exists(result_path):
-        os.makedirs(result_path)
-    if not os.path.exists(model_path):
-        os.makedirs(model_path)
-    return path
+import mlflow
+import argparse
+import yaml
 
-
-def add_mongodb_observer():
-    """
-    connects the experiment instance to the mongodb database
-    """
-    MONGO_HOST = 'TUD-tm2'
-    MONGO_DB = 'policy_confounding'
-    PKEY = '~/.ssh/id_rsa'
-    
-    print("Trying to connect to mongoDB '{}'".format(MONGO_DB))
-    server = SSHTunnelForwarder(
-        MONGO_HOST,
-        ssh_pkey=PKEY,
-        remote_bind_address=('127.0.0.1', 27017)
-        )
-    server.start()
-    DB_URI = 'mongodb://localhost:{}/policy_confounding'.format(server.local_bind_port)
-        
-    
-    # DB_URI = 'mongodb://localhost:27017/policy_confounding'
-
-
-    ex.observers.append(MongoObserver.create(DB_URI, db_name=MONGO_DB, ssl=False))
-    print("Added MongoDB observer on {}.".format(MONGO_DB))
-        # print("ONLY FILE STORAGE OBSERVER ADDED")
-        # from sacred.observers import FileStorageObserver
-        # ex.observers.append(FileStorageObserver.create('saved_runs'))
 
 class Experiment(object):
     """
     Creates experiment object to interact with the environment and
     the agent and log results.
     """
-    def __init__(self, parameters, _run, seed):
-        self._run = _run
+    def __init__(self, parameters, seed):
         self._seed = seed
-        self.parameters = parameters['main']
+        self.parameters = parameters
         self.seed = seed
         self.log_dir = 'tmp/'
         os.makedirs(self.log_dir, exist_ok=True)
@@ -109,21 +69,6 @@ class Experiment(object):
             env = VecFrameStack(env, n_stack=self.parameters['n_stack'])
         self.eval_env = VecMonitor(env, self.log_dir)
     
-    def make_env(self, env_id, rank, seed=0, eval=False):
-        """
-        Utility function for multiprocessed env.
-        :param env_id: (str) the environment ID
-        :param num_env: (int) the number of environments you wish to have in subprocesses
-        :param seed: (int) the inital seed for RNG
-        :param rank: (int) index of the subprocess
-        """
-        def _init():
-            env = gym.make(env_id, seed=seed+np.random.randint(1.0e+6), eval=eval)
-            # env = Monitor(env, './logs')
-            env.seed(seed + rank)
-            return env
-        return _init   
-           
     def linear_schedule(self, initial_value: float, final_value: float):
         """
         Linear learning rate schedule.
@@ -149,11 +94,12 @@ class Experiment(object):
             self.parameters['hidden_size'], 
             self.parameters['hidden_size_2']
             ])
+        
         if self.parameters['algorithm'] == 'PPO':
-            self.agent = PPO(
+            self.agent = customPPO(
                 "MlpPolicy", 
                 self.train_env, 
-                verbose=0, 
+                verbose=0,
                 clip_range=self.parameters['epsilon'], 
                 clip_range_vf=self.parameters['epsilon'],
                 vf_coef=self.parameters['c1'],
@@ -161,11 +107,13 @@ class Experiment(object):
                 n_steps=self.parameters['rollout_steps'],
                 ent_coef=self.parameters['beta'], 
                 n_epochs=self.parameters['num_epoch'],
+                gae_lambda=self.parameters['gae_lambda'],
                 learning_rate=self.linear_schedule(self.parameters['learning_rate'], self.parameters['learning_rate_final']),
-                # learning_rate=self.parameters['learning_rate'],
                 gamma=self.parameters['gamma'],
-                policy_kwargs=policy_kwargs
-                )
+                policy_kwargs=policy_kwargs,
+                normalize_advantage=self.parameters['normalize_advantage'],
+                use_advantage=self.parameters['use_advantage']
+            )
 
         elif self.parameters['algorithm'] == 'DQN':
             self.agent = DQN(
@@ -176,7 +124,6 @@ class Experiment(object):
                 learning_starts=self.parameters['learning_starts'],
                 batch_size=self.parameters['batch_size'],
                 learning_rate=self.linear_schedule(self.parameters['learning_rate'], self.parameters['learning_rate_final']), 
-                # learning_rate=self.parameters['learning_rate'],
                 target_update_interval=self.parameters['target_update_interval'],
                 exploration_initial_eps=self.parameters['exploration_initial_eps'],
                 exploration_final_eps=self.parameters['exploration_final_eps'],
@@ -184,26 +131,78 @@ class Experiment(object):
                 train_freq=self.parameters['train_freq'],
                 gamma=self.parameters['gamma'],
                 policy_kwargs=policy_kwargs
+            )
+        
+        elif self.parameters['algorithm'] == 'REINFORCE':
+            self.agent = REINFORCE(
+                self.train_env,
+                learning_rate=self.parameters['learning_rate'],
+                gamma=self.parameters['gamma'],
+                use_advantage=self.parameters['use_advantage'],
+                beta=self.parameters['beta']
                 )
+            
         callback = Callback(
             self.agent, 
             self.original_env,
+            self.train_env,
             self.eval_env,
-            self._run,
             deterministic=self.parameters['eval_deterministic'],
             eval_freq=self.parameters['eval_freq'],
             n_eval_episodes=self.parameters['eval_episodes'],
             log_dir=self.log_dir
             )
         self.agent.learn(total_timesteps=self.parameters['total_steps'], reset_num_timesteps=False, callback=callback)
-        
+
+def merge_configs(default_config, custom_config):
+    """
+    Merges the custom config into the default config.
+    If a key exists in both, the custom config overrides the default.
+    """
+    merged_config = deepcopy(default_config)
+    merged_config.update(custom_config)
+    return merged_config    
 
 if __name__ == '__main__':
-    ex = sacred.Experiment('policy_confounding')
-    ex.add_config('configs/default.yaml')
-    add_mongodb_observer()
+    
+    parser = argparse.ArgumentParser(description="Run RL experiment with MLFlow")
+    parser.add_argument('--config', type=str, default='configs/default.yaml', 
+                        help='Path to the configuration file')
+    parser.add_argument('--default_config', type=str, default='configs/default.yaml',
+                        help='Path to the default configuration file')
 
-    @ex.automain
-    def main(parameters, seed, _run):
-        exp = Experiment(parameters, _run, seed)
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Load default configuration
+    default_config_path = args.default_config
+    if not os.path.exists(default_config_path):
+        raise FileNotFoundError(f"Default config file not found: {default_config_path}")
+    
+    with open(default_config_path, 'r') as default_config_file:
+        default_parameters = yaml.load(default_config_file, Loader=yaml.FullLoader)
+
+    # Load custom configuration (if provided)
+    custom_config_path = args.config
+    if not os.path.exists(custom_config_path):
+        raise FileNotFoundError(f"Custom config file not found: {custom_config_path}")
+
+    with open(custom_config_path, 'r') as custom_config_file:
+        custom_parameters = yaml.load(custom_config_file, Loader=yaml.FullLoader)
+
+    # Merge configurations (custom overrides default)
+    parameters = merge_configs(default_parameters['parameters']['main'], custom_parameters['parameters'].get('main', {}))
+
+    # Set up MLFlow experiment
+    mlflow.set_experiment(f'policy_confounding_{parameters["env"]}')
+    
+    with mlflow.start_run():
+        # You can log parameters at the start of the experiment
+        mlflow.log_params(parameters)
+        
+        # Seed tracking as well
+        seed = 42  # or dynamically generate
+        mlflow.log_param("seed", seed)
+
+        exp = Experiment(parameters, seed)
         exp.learn()

@@ -1,15 +1,10 @@
 parameters:
     main:
-        env: 'tmaze'
-        name: 'environments:tmaze-v0'
+        env: 'diversion'
+        name: 'environments:diversion-v0'
         algorithm: 'DQN'
-        num_workers: 1
         n_stack: 30
-        eval_episodes: 50
-        eval_deterministic: true
-        eval_freq: 1.0e+4
-        total_steps: 1.0e+5
-        buffer_size: 1.0e+5
+        buffer_size: 200
         batch_size: 256
         target_update_interval: 1.0e+3
         learning_starts: 1.0e+4
@@ -18,8 +13,7 @@ parameters:
         exploration_fraction: 0.2
         learning_rate: 1.0e-3
         learning_rate_final: 1.0e-4
-        hidden_size: 128
-        hidden_size_2: 128
         train_freq: 5
         gamma: 0.95
-        random_action_prob: 0.0
+        eval_freq: 1.0e+3
+        total_steps: 2.0e+4

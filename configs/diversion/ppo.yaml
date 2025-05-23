@@ -1,0 +1,10 @@
+parameters:
+    main:
+        env: 'diversion'
+        name: 'environments:diversion-v0'
+        algorithm: 'PPO'
+        n_stack: 1
+        eval_freq: 1.0e+3
+        total_steps: 2.0e+4
+        normalize_advantage: false
+        use_advantage: true

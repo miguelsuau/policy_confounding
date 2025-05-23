@@ -1,0 +1,8 @@
+parameters:
+    main:
+        env: 'tmaze'
+        name: 'environments:tmaze-v0'
+        algorithm: 'REINFORCE'
+        n_stack: 30
+        use_advantage: false
+        total_steps: 2.0e+5
